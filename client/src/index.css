@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ivory: #f5f0e8;
+  --sandstone: #e8ddcc;
+  --brown: #754e2e;
+  --espresso: #3e2a1d;
+  --gold: #dab383;
+  --terracotta: #b86f4b;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-[#F5F0E8] text-[#3E2A1D] antialiased;
+    font-family: "Manrope", "Segoe UI", sans-serif;
+    background-image: radial-gradient(
+      circle at top,
+      rgba(218, 179, 131, 0.16),
+      transparent 42%
+    );
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    font-family: "Cormorant Garamond", Georgia, serif;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  ::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#DAB383] rounded-full;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-[#E8DDCC];
+  }
+}
+
+@layer components {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .greek-key-divider {
+    @apply bg-greek-key bg-repeat-x h-2 w-full opacity-80;
+  }
+
+  .architectural-frame {
+    position: relative;
+    display: block;
+    padding: 1rem;
+    background: rgba(245, 240, 232, 0.9);
+    border: 1px solid rgba(218, 179, 131, 0.8);
+    box-shadow: 0 24px 50px -35px rgba(62, 42, 29, 0.6);
+  }
+
+  .architectural-frame::before,
+  .architectural-frame::after {
+    content: "";
+    position: absolute;
+    width: 22%;
+    height: 28%;
+    border: 1px solid rgba(218, 179, 131, 0.9);
+    pointer-events: none;
+  }
+
+  .architectural-frame::before {
+    top: 0.8rem;
+    right: 0.8rem;
+    border-left: 0;
+    border-bottom: 0;
+  }
+
+  .architectural-frame::after {
+    bottom: 0.8rem;
+    left: 0.8rem;
+    border-top: 0;
+    border-right: 0;
+  }
+
+  .editorial-panel {
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(218, 179, 131, 0.55);
+    backdrop-filter: blur(2px);
+  }
+
+  .float-soft {
+    animation: float-soft 9s ease-in-out infinite;
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
