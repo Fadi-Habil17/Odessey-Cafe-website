@@ -17,13 +17,18 @@ const featureCards = [
     icon: Coffee,
   },
   {
-    title: "أجواء مريحة",
+    title: "أجواء عائلية مريحة",
     text: "جلسات داخلية وخارجية، وموسيقى هادئة، وإضاءة دافئة.",
     icon: Sparkles,
   },
   {
-    title: "بيئة ثقافية",
-    text: "إضاءة معمارية، وقوام طبيعي، وأجواء هادئة مستوحاة من الكلاسيكيات العريقة.",
+    title: "أجواء مباريات حماسية",
+    text: "عرض كافة المباريات على شاشات كبيرة، مع أصوات عالية.",
+    icon: MapPin,
+  },
+  {
+    title: "خدمات انترنت سريع",
+    text: "يتوفر انترنت ضوئي بسرعات عالية جداً، مع إمكانية توصيل الأجهزة المختلفة.",
     icon: MapPin,
   },
 ];
@@ -205,7 +210,7 @@ export default function Home() {
         </section>
 
         <section className="mx-auto max-w-7xl px-4 py-12 md:py-16">
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-4">
             {featureCards.map(({ title, text, icon: Icon }) => (
               <article
                 key={title}

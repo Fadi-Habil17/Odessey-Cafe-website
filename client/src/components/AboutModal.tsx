@@ -16,24 +16,23 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
       />
       <div className="relative bg-marble-50 rounded-2xl max-w-md w-full shadow-2xl overflow-hidden">
         <div className="bg-aegean-900 px-5 py-4 flex items-center justify-between">
-          <h2 className="text-marble-50 font-bold text-lg">
-            من نحن — Odessey
-          </h2>
-          <button onClick={onClose} className="text-marble-50 hover:text-gold-300">
+          <h2 className="text-marble-50 font-bold text-lg">من نحن — Odessey</h2>
+          <button
+            onClick={onClose}
+            className="text-marble-50 hover:text-gold-300"
+          >
             <X size={20} />
           </button>
         </div>
         <div className="greek-key-divider" />
         <div className="p-5 text-sm leading-relaxed text-aegean-700 space-y-3">
           <p>
-            مرحباً بكم في <span className="font-bold text-wine-700">Odessey</span>،
-            رحلة نكهات مستوحاة من الحضارة الإغريقية القديمة، حيث تلتقي
-            الأصالة اليونانية بأطباقنا الشرقية المحلية.
+            مرحباً بكم في{" "}
+            <span className="font-bold text-wine-700">Odessey</span>
           </p>
           <p>
-            نقدّم تشكيلة واسعة من الوجبات، السندويشات، البيتزا، البرغر،
-            المقبلات، والمشروبات — جميعها مُحضّرة بعناية لتمنحكم تجربة
-            أوليمبية لا تُنسى.
+            نقدّم تشكيلة واسعة من المشروبات، الحلويات، الأراكيل ， المقبلات，—
+            جميعها مُحضّرة بعناية لتمنحكم تجربة سلمونية لا تُنسى.
           </p>
           <p className="text-aegean-500 text-xs">
             نُسعد بزيارتكم يومياً ضمن أوقات دوامنا المُعلنة أعلاه.

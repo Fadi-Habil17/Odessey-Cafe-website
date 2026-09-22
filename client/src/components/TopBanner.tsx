@@ -8,7 +8,7 @@ interface TopBannerProps {
 
 const defaultHours: WorkingHours = {
   label: "الدوام الصيفي",
-  hours: "9:00 ص - 1:00 ص",
+  hours: "9:00 ص - 11:00 ل",
 };
 
 export default function TopBanner({

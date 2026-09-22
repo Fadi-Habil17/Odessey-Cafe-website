@@ -39,7 +39,7 @@ export default function Footer() {
             </li>
             <li className="flex items-start gap-2">
               <Phone size={16} className="mt-0.5 text-[#DAB383]" />
-              963968469738+
+              963986228742+
             </li>
             <li className="flex items-start gap-2">
               <Instagram size={16} className="mt-0.5 text-[#DAB383]" />
@@ -55,7 +55,7 @@ export default function Footer() {
           <ul className="space-y-3 text-[#F5F0E8]/80">
             <li className="flex items-center gap-2">
               <Clock3 size={16} className="text-[#DAB383]" />
-              يومياً: 9:00 ص - 1:00 ص
+              يومياً: 9:00 ص - 11:00 ل
             </li>
           </ul>
         </div>
