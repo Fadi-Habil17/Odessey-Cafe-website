@@ -1,4 +1,3 @@
-import path from "path";
 import express from "express";
 import cors from "cors";
 import menuRoutes from "./routes/menuRoutes";
@@ -14,12 +13,9 @@ export function createApp() {
   app.use(
     cors({
       origin: process.env.CLIENT_URL || "http://localhost:5173",
-    })
+    }),
   );
   app.use(express.json());
-
-  // Serve uploaded menu-item images (e.g. http://localhost:5000/uploads/xyz.jpg)
-  app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
   app.use("/api", menuRoutes);
   app.use("/api", categoryRoutes);

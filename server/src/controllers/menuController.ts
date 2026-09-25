@@ -4,9 +4,9 @@ import MenuItemModel from "../models/MenuItem";
 import CategoryModel from "../models/Category";
 import { mockCategories, mockMenuItems } from "../data/mockData";
 import type { AuthenticatedRequest } from "../middleware/authMiddleware";
+import { uploadToCloudinary } from "../middleware/uploadMiddleware";
 
-const useMock = () =>
-  process.env.USE_MOCK_DB === "true" || !isDbConnected();
+const useMock = () => process.env.USE_MOCK_DB === "true" || !isDbConnected();
 
 // GET /api/categories
 export async function getCategories(_req: Request, res: Response) {
@@ -88,7 +88,8 @@ export async function createMenuItem(req: AuthenticatedRequest, res: Response) {
   try {
     if (useMock()) {
       return res.status(400).json({
-        message: "لا يمكن إضافة أصناف أثناء استخدام البيانات الوهمية (USE_MOCK_DB=true). فعّل MongoDB أولاً.",
+        message:
+          "لا يمكن إضافة أصناف أثناء استخدام البيانات الوهمية (USE_MOCK_DB=true). فعّل MongoDB أولاً.",
       });
     }
 
@@ -104,16 +105,31 @@ export async function createMenuItem(req: AuthenticatedRequest, res: Response) {
     } = req.body;
 
     if (!nameAr || !descriptionAr || !price || !categoryId) {
-      return res.status(400).json({ message: "الرجاء تعبئة جميع الحقول المطلوبة (الاسم، الوصف، السعر، القسم)" });
+      return res
+        .status(400)
+        .json({
+          message:
+            "الرجاء تعبئة جميع الحقول المطلوبة (الاسم، الوصف، السعر، القسم)",
+        });
     }
 
-    // If an image was uploaded via multer, use its public path; otherwise fall back to a provided URL
-    const imageUrl = req.file
-      ? `/uploads/${req.file.filename}`
-      : req.body.imageUrl;
+    let imageUrl = req.body.imageUrl || req.body.image || "";
+
+    if (req.file) {
+      try {
+        imageUrl = await uploadToCloudinary(req.file);
+      } catch (error) {
+        console.error("Cloudinary upload failed:", error);
+        return res
+          .status(400)
+          .json({ message: "فشل رفع الصورة، تأكد من إعدادات Cloudinary" });
+      }
+    }
 
     if (!imageUrl) {
-      return res.status(400).json({ message: "الرجاء رفع صورة أو إدخال رابط صورة" });
+      return res
+        .status(400)
+        .json({ message: "الرجاء رفع صورة أو إدخال رابط صورة" });
     }
 
     const item = await MenuItemModel.create({
@@ -140,16 +156,23 @@ export async function updateMenuItem(req: AuthenticatedRequest, res: Response) {
   try {
     if (useMock()) {
       return res.status(400).json({
-        message: "لا يمكن تعديل الأصناف أثناء استخدام البيانات الوهمية (USE_MOCK_DB=true). فعّل MongoDB أولاً.",
+        message:
+          "لا يمكن تعديل الأصناف أثناء استخدام البيانات الوهمية (USE_MOCK_DB=true). فعّل MongoDB أولاً.",
       });
     }
 
     const { id } = req.params;
     const updates: Record<string, unknown> = { ...req.body };
 
-    // If a new image file was uploaded, replace imageUrl with the new path
     if (req.file) {
-      updates.imageUrl = `/uploads/${req.file.filename}`;
+      try {
+        updates.imageUrl = await uploadToCloudinary(req.file);
+      } catch (error) {
+        console.error("Cloudinary update upload failed:", error);
+        return res
+          .status(400)
+          .json({ message: "فشل تحديث الصورة، تأكد من إعدادات Cloudinary" });
+      }
     }
 
     const item = await MenuItemModel.findByIdAndUpdate(id, updates, {
@@ -173,7 +196,8 @@ export async function deleteMenuItem(req: AuthenticatedRequest, res: Response) {
   try {
     if (useMock()) {
       return res.status(400).json({
-        message: "لا يمكن حذف الأصناف أثناء استخدام البيانات الوهمية (USE_MOCK_DB=true). فعّل MongoDB أولاً.",
+        message:
+          "لا يمكن حذف الأصناف أثناء استخدام البيانات الوهمية (USE_MOCK_DB=true). فعّل MongoDB أولاً.",
       });
     }
 

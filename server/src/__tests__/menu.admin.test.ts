@@ -9,12 +9,15 @@ jest.mock("../config/db", () => ({
 jest.mock("../models/MenuItem");
 
 import { app } from "../app";
+import { createMenuItem } from "../controllers/menuController";
 import MenuItemModel from "../models/MenuItem";
 
 const SECRET = "test-secret-do-not-use-in-production";
 
 function adminToken() {
-  return jwt.sign({ id: "admin-1", role: "superadmin" }, SECRET, { expiresIn: "1h" });
+  return jwt.sign({ id: "admin-1", role: "superadmin" }, SECRET, {
+    expiresIn: "1h",
+  });
 }
 
 const validItemBody = {
@@ -26,9 +29,11 @@ const validItemBody = {
 };
 
 describe("Admin menu-item CRUD (USE_MOCK_DB=false, MongoDB mocked)", () => {
-  beforeAll(() => {
+  beforeEach(() => {
+    jest.clearAllMocks();
     process.env.USE_MOCK_DB = "false";
   });
+
   afterAll(() => {
     process.env.USE_MOCK_DB = "true";
   });
@@ -66,11 +71,48 @@ describe("Admin menu-item CRUD (USE_MOCK_DB=false, MongoDB mocked)", () => {
       expect(res.body.nameAr).toBe(validItemBody.nameAr);
       expect(MenuItemModel.create).toHaveBeenCalledTimes(1);
     });
+
+    it("uses the uploaded Cloudinary URL when a file is present", async () => {
+      const cloudinaryUrl =
+        "https://res.cloudinary.com/demo/image/upload/v123/food.jpg";
+      const req = {
+        body: {
+          nameAr: "طبق جديد",
+          descriptionAr: "وصف جديد",
+          price: 123,
+          currency: "ل.س",
+          categoryId: "greek",
+          isAvailable: true,
+          isFeatured: false,
+        },
+        file: { secure_url: cloudinaryUrl },
+      } as any;
+
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as any;
+
+      (MenuItemModel.create as jest.Mock).mockResolvedValueOnce({
+        _id: "cloud-item-1",
+        ...req.body,
+        imageUrl: cloudinaryUrl,
+      });
+
+      await createMenuItem(req, res);
+
+      expect(MenuItemModel.create).toHaveBeenCalledWith(
+        expect.objectContaining({ imageUrl: cloudinaryUrl }),
+      );
+      expect(res.status).toHaveBeenCalledWith(201);
+    });
   });
 
   describe("PUT /api/menu/:id", () => {
     it("rejects the request with no auth token", async () => {
-      const res = await request(app).put("/api/menu/abc123").send({ price: 5000 });
+      const res = await request(app)
+        .put("/api/menu/abc123")
+        .send({ price: 5000 });
       expect(res.status).toBe(401);
     });
 
@@ -91,7 +133,9 @@ describe("Admin menu-item CRUD (USE_MOCK_DB=false, MongoDB mocked)", () => {
     });
 
     it("returns 404 when the item does not exist", async () => {
-      (MenuItemModel.findByIdAndUpdate as jest.Mock).mockResolvedValueOnce(null);
+      (MenuItemModel.findByIdAndUpdate as jest.Mock).mockResolvedValueOnce(
+        null,
+      );
 
       const res = await request(app)
         .put("/api/menu/does-not-exist")
@@ -121,7 +165,9 @@ describe("Admin menu-item CRUD (USE_MOCK_DB=false, MongoDB mocked)", () => {
     });
 
     it("returns 404 when the item does not exist", async () => {
-      (MenuItemModel.findByIdAndDelete as jest.Mock).mockResolvedValueOnce(null);
+      (MenuItemModel.findByIdAndDelete as jest.Mock).mockResolvedValueOnce(
+        null,
+      );
 
       const res = await request(app)
         .delete("/api/menu/does-not-exist")
