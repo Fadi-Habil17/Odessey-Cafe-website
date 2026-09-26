@@ -130,7 +130,7 @@ export default function Home() {
                     منذ 2025
                   </p>
                   <h1 className="font-display text-5xl leading-[0.82] tracking-[-0.04em] text-[#3E2A1D] sm:text-6xl lg:text-[7rem]">
-                    ODYSSEY
+                    ODEYSSEY
                     <span className="block text-[#754E2E]">CAFE</span>
                   </h1>
                 </div>
