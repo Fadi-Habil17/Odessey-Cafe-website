@@ -22,7 +22,7 @@ export default function Header({
           />
           <div>
             <h1 className="font-display text-2xl leading-none tracking-[0.08em] text-[#3E2A1D] sm:text-[2rem]">
-              ODYSSEY
+              ODEYSSEY
             </h1>
             <p className="text-[10px] uppercase tracking-[0.28em] text-[#754E2E]">
               CAFE

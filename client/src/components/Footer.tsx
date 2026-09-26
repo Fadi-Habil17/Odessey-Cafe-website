@@ -15,7 +15,7 @@ export default function Footer() {
             />
             <div>
               <h3 className="font-display text-3xl leading-none tracking-[0.08em] text-[#F5F0E8]">
-                ODYSSEY
+                ODEYSSEY
               </h3>
               <p className="text-[10px] uppercase tracking-[0.28em] text-[#DAB383]">
                 CAFE
@@ -43,7 +43,7 @@ export default function Footer() {
             </li>
             <li className="flex items-start gap-2">
               <Instagram size={16} className="mt-0.5 text-[#DAB383]" />
-              @odyssey.cafe
+              @odeyssey.cafe
             </li>
           </ul>
         </div>
@@ -84,7 +84,7 @@ export default function Footer() {
 
       <div className="border-t border-[#DAB383]/20">
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-4 py-4 text-center text-[11px] uppercase tracking-[0.2em] text-[#F5F0E8]/60">
-          <span>© {new Date().getFullYear()} Odyssey Cafe</span>
+          <span>© {new Date().getFullYear()} Odeyssey Cafe</span>
           <Link
             to="/admin/login"
             className="text-[#DAB383] transition-opacity hover:opacity-80"
